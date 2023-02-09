@@ -1,0 +1,25 @@
+{
+  "name": "web3-modal-test",
+  "version": "0.0.1",
+  "author": "lay2",
+  "scripts": {
+    "build": "umi build",
+    "dev": "umi dev",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@unipasswallet/web3modal": "^1.0.1",
+    "@unipasswallet/ethereum-provider": "^1.0.2",
+    "antd": "^5.1.5",
+    "umi": "^4.0.44",
+    "ethers": "^5.7.1",
+    "siwe": "^1.1.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.1.2"
+  }
+}
