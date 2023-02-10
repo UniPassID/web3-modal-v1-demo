@@ -10,7 +10,7 @@ import { verifySiweMessage } from "@/unipass/verify_message";
 
 const { TextArea } = Input;
 
-const personalSignMessage = "Welcome to use Wagmi with unipass!";
+const personalSignMessage = "Welcome to use web3 modal with unipass!";
 
 export default function HomePage() {
   const providerOptions = {
@@ -41,6 +41,7 @@ export default function HomePage() {
   const [signature, setSignature] = useState("");
   const [siweMessage, setSiweMessage] = useState("");
   const [siweSignature, setSiweSignature] = useState("");
+  const [typedSignature, setTypedSignature] = useState("");
   const [nativeHash, setNativeHash] = useState("");
   const [sendNativeLoading, setSendNativeLoading] = useState(false);
 
@@ -112,6 +113,64 @@ export default function HomePage() {
       const _signature = await signer.signMessage(message);
       setSiweMessage(message);
       setSiweSignature(_signature);
+    }
+  };
+
+  const signTypedData = async () => {
+    if (provider) {
+      const eip712DemoData = {
+        types: {
+          Person: [
+            {
+              name: "name",
+              type: "string",
+            },
+            {
+              name: "wallet",
+              type: "address",
+            },
+          ],
+          Mail: [
+            {
+              name: "from",
+              type: "Person",
+            },
+            {
+              name: "to",
+              type: "Person",
+            },
+            {
+              name: "contents",
+              type: "string",
+            },
+          ],
+        },
+        primaryType: "Mail",
+        domain: {
+          name: "Ether Mail",
+          version: "1",
+          chainId: 1,
+          verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+        },
+        message: {
+          from: {
+            name: "Cow",
+            wallet: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+          },
+          to: {
+            name: "Bob",
+            wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+          },
+          contents: "Hello, Bob!",
+        },
+      };
+      const signer = provider.getSigner(address);
+      const signature = await signer._signTypedData(
+        eip712DemoData.domain,
+        eip712DemoData.types,
+        eip712DemoData.message
+      );
+      setTypedSignature(signature);
     }
   };
 
@@ -190,6 +249,14 @@ export default function HomePage() {
       >
         Verify Signature
       </Button>
+
+      <Divider />
+      <h3>Sign Typed Data(EIP-712):</h3>
+      <Button type="primary" onClick={signTypedData} disabled={!address}>
+        Sign Typed Data(EIP-712)
+      </Button>
+      <h4>Typed Data Signature:</h4>
+      <TextArea rows={4} value={typedSignature} />
 
       <Divider />
       <h3>Send Transaction:</h3>
