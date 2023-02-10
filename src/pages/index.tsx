@@ -71,15 +71,6 @@ export default function HomePage() {
     const wallet = await web3Modal.connect();
     const provider = new providers.Web3Provider(wallet);
 
-    setAddress("");
-    setBalance("0");
-    setChainId(0);
-    setSignature("");
-    setSiweMessage("");
-    setTypedSignature("");
-    setNativeHash("");
-    setSiweSignature("");
-    setSendNativeLoading(false);
     setProvider(provider);
     setUniPassWallet(wallet);
   };
@@ -93,9 +84,18 @@ export default function HomePage() {
 
   const disconnectWeb3Modal = async () => {
     web3Modal.clearCachedProvider();
-    unipassWallet?.disconnect();
+    await unipassWallet?.disconnect();
     setProvider(null);
     setUniPassWallet(null);
+    setAddress("");
+    setBalance("0");
+    setChainId(0);
+    setSignature("");
+    setSiweMessage("");
+    setTypedSignature("");
+    setNativeHash("");
+    setSiweSignature("");
+    setSendNativeLoading(false);
   };
 
   const signMessage = async () => {
