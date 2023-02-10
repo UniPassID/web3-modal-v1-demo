@@ -71,6 +71,15 @@ export default function HomePage() {
     const wallet = await web3Modal.connect();
     const provider = new providers.Web3Provider(wallet);
 
+    setAddress("");
+    setBalance("0");
+    setChainId(0);
+    setSignature("");
+    setSiweMessage("");
+    setTypedSignature("");
+    setNativeHash("");
+    setSiweSignature("");
+    setSendNativeLoading(false);
     setProvider(provider);
     setUniPassWallet(wallet);
   };
